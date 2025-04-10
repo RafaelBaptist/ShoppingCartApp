@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { CartContext } from "../../contexts/CartContext";
 
 export default function Home() {
-  const { cart } = useContext(CartContext);
+  const { cart, addItemCart } = useContext(CartContext);
   const navigation = useNavigation();
   const [products, setProducts] = useState([
     { id: "1", name: "Mouse gamer", price: 289.9 },
@@ -25,8 +25,12 @@ export default function Home() {
     { id: "7", name: "HD Externo 1TB", price: 349.75 },
     { id: "8", name: "Hub USB-C 5 em 1", price: 120.0 },
     { id: "9", name: "Webcam Full HD", price: 215.99 },
-    { id: "10", name: "Mousepad RGB", price: 89.9 },
+    { id: "10", name: "Mousepad speed", price: 89.9 },
   ]);
+
+  function handleAddCart(item) {
+    addItemCart(item);
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.cartContainer}>
@@ -46,7 +50,9 @@ export default function Home() {
         style={styles.list}
         data={products}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <Product data={item} />}
+        renderItem={({ item }) => (
+          <Product data={item} addToCart={() => handleAddCart(item)} />
+        )}
       />
     </SafeAreaView>
   );
